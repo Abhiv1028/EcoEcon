@@ -1,0 +1,5 @@
+Model,AUC,Type,Novel,Uses graphs,Eco pretrain
+Logistic Regression,0.167,Linear baseline,No,No,No
+Random Forest,0.583,Ensemble baseline,No,No,No
+GNN (no pretrain),0.083,Graph neural network,Partial,Yes,No
+GNN (ecological pretrain),0.167,Cross-domain transfer learning,Yes — core contribution,Yes,Yes
