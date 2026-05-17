@@ -1,0 +1,10 @@
+Model,AUC,Data Scale,Type
+Single feature (consumer_credit),1.0,Monthly,Baseline
+"Graph Neural Network (monthly, n=96)",0.991,Monthly,Deep Learning
+"Logistic Regression (monthly, n=96)",0.972,Monthly,Classical ML
+Single feature (housing_var_var),0.954,Monthly,Baseline
+Single feature (fed_funds),0.944,Monthly,Baseline
+"Logistic Regression (annual, n=8)",0.867,Annual,Classical ML
+"Random Forest (annual, n=8)",0.733,Annual,Classical ML
+"Random Forest (monthly, n=96)",0.458,Monthly,Classical ML
+"GNN no pretrain (annual, n=8)",0.333,Annual,Deep Learning
