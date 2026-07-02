@@ -1,0 +1,322 @@
+
+\documentclass[12pt,a4paper]{article}
+
+% ---- Packages ----
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{natbib}
+\usepackage{float}
+
+\title{\textbf{EcoEcon: Ecological Resilience Indicators for Systemic Risk --- A Retrospective Analysis of the 2008 Financial Crisis}}
+
+\author{
+    Abhinav Vaddi\\
+    \texttt{github.com/Abhiv1028/EcoEcon}
+}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Can ecological collapse theory provide early warning indicators for financial crises? We model the US economy as a biological ecosystem---sectors as species, supply chains as mutualistic dependencies, and bankruptcy cascades as extinction events---and apply three bodies of ecological theory to BEA Input-Output and FRED data (2002--2009): May's (1972) stability theorem, Scheffer et al.'s (2009) critical slowing down, and network robustness metrics. We construct an Economic Biodiversity Index (EBI) and track network spectral gap and critical slowing down signals, finding that all three ecological indicators deteriorated before the 2008 financial crisis in a retrospective analysis. Housing starts variance peaked approximately 18 months before crisis onset. Logistic regression trained on these features achieves mean AUC = 0.944 (monthly, n=96) as the primary reproducible result. A Graph Neural Network explored as a preliminary extension achieves mean AUC = $0.361 \pm 0.440$ across 5 seeds, indicating high initialization sensitivity; a best-seed result of AUC = 0.993 is reported for completeness but is not a reliable estimate of out-of-sample performance and should not be interpreted as such. This analysis is explicitly retrospective and limited to one crisis episode; generalizability requires multi-crisis validation. We propose ecological resilience indicators as a complementary framework for systemic risk monitoring, subject to the methodological caveats described herein.
+\end{abstract}
+
+% ============================================================
+\section{Introduction}
+% ============================================================
+
+Financial crises remain notoriously difficult to predict. Standard early warning systems rely on macroeconomic aggregates (credit growth, asset prices, current account deficits), yet the 2008 Global Financial Crisis exposed the limitations of these approaches---most official forecasts in 2007 projected continued growth (Reinhart \& Rogoff, 2009).
+
+Ecology faces a structurally analogous problem: detecting when a stable ecosystem is approaching collapse. Over five decades, ecologists have developed a robust theoretical framework for understanding stability and collapse in complex systems. May (1972) proved that complexity itself can be destabilizing---above a critical threshold of diversity and connectance, large systems become inherently unstable. Scheffer et al. (2009) demonstrated that many complex systems exhibit ``critical slowing down'' before tipping points: rising variance and autocorrelation in key state variables as the system loses resilience. Acemoglu et al. (2015) showed that financial networks exhibit phase transitions where diversification reduces individual risk up to a point, beyond which it creates systemic fragility through contagion channels. Haldane \& May (2011) applied this ecological analogy directly to banking systems, demonstrating that the same complexity-fragility tradeoff governs interbank contagion networks.
+
+This paper proposes a structural mapping between ecosystems and economies and operationalizes it by constructing ecological metrics from economic data, testing whether they were elevated before the 2008 crisis. We make no claim that these signals would have been detectable in real time or that they generalize beyond this single episode; that question requires multi-crisis validation outside the scope of this retrospective study.
+
+% ============================================================
+\section{Methods}
+% ============================================================
+
+\subsection{Variable Mapping}
+
+Table~\ref{tab:mapping} presents the ecological-to-economic translation underlying our metrics. We note one important theoretical correction relative to standard ecological analogies: supplier-buyer relationships in IO networks are structurally closer to \textit{mutualistic} interactions (+/+) than predator-prey interactions (+/$-$), since both parties benefit from the transaction. This distinction matters because Allesina \& Tang (2012) showed that mutualistic networks destabilize more rapidly with increasing diversity and connectance than predator-prey networks do---placing economic IO networks in a potentially more fragile stability regime than the predator-prey framing would imply.
+
+\begin{table}[H]
+\centering
+\caption{Ecological-to-economic variable mapping}
+\label{tab:mapping}
+\begin{tabular}{ll}
+\toprule
+\textbf{Ecological Concept} & \textbf{Economic Analog} \\
+\midrule
+Species & Sector (68 BEA industries) \\
+Mutualistic dependency & Supplier-buyer relationship \\
+Biomass flow & Revenue flow between sectors \\
+Keystone species & Systemically important sector \\
+Extinction cascade & Bankruptcy contagion \\
+Ecosystem biodiversity & Sector centrality distribution (EBI) \\
+Critical slowing down & Rising variance + autocorrelation \\
+Spectral gap collapse & Network fragmentation \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Data Sources}
+
+\textbf{BEA Input-Output Tables.} Annual sector-level monetary flows for 68 industries, 2002--2009, from the Bureau of Economic Analysis (TableID 259). Each year's table is a $68 \times 68$ matrix $W$ where $W_{ij}$ is the dollar flow from sector $i$ to sector $j$.
+
+\textbf{FRED Financial Time Series.} Monthly data from the Federal Reserve Economic Database: housing starts (HOUST), bank credit (TOTBKCR), credit spread (BAMLH0A0HYM2), consumer credit (TOTALSL), and the Federal Funds rate (FEDFUNDS).
+
+\textbf{Crisis Dating.} NBER recession dates (December 2007--June 2009) augmented with the August 2007 BNP Paribas redemption freeze as the crisis onset marker for monthly analysis.
+
+\subsection{Economic Biodiversity Index (EBI)}
+
+For each year, we construct a directed, weighted graph $G = (V, E, W)$ where nodes are the 68 BEA sectors and edge weights are inter-sector monetary flows. We compute betweenness centrality for each node and form a probability distribution:
+
+\begin{equation}
+p_i = \frac{c_i}{\sum_{j=1}^{n} c_j}, \quad i = 1,\ldots,n
+\end{equation}
+
+where $c_i$ is the betweenness centrality of sector $i$. The Shannon entropy (Shannon, 1948) of this distribution is:
+
+\begin{equation}
+H = -\sum_{i=1}^{n} p_i \ln p_i
+\end{equation}
+
+The top-3 concentration ratio is:
+
+\begin{equation}
+\text{top3\_share} = \frac{\sum_{i=1}^{3} c_{(i)}}{\sum_{j=1}^{n} c_j}
+\end{equation}
+
+where $c_{(i)}$ are centrality values in descending order. The Economic Biodiversity Index is:
+
+\begin{equation}
+\text{EBI} = H \times (1 - \text{top3\_share})
+\end{equation}
+
+This penalizes high entropy by keystone concentration: a system with evenly distributed centrality but concentrated keystone sectors receives a lower EBI score, capturing the ecological insight that keystone-dominated systems are fragile despite apparent diversity. We note that the choice of betweenness centrality and the top-3 threshold are exploratory design choices; robustness to alternative centrality measures (eigenvector, DebtRank) is reserved for future work.
+
+\subsection{Spectral Gap}
+
+The spectral gap is defined as:
+
+\begin{equation}
+\Delta \lambda = \lambda_1 - \lambda_2
+\end{equation}
+
+where $\lambda_1, \lambda_2$ are the largest and second-largest eigenvalues (by magnitude) of the adjacency matrix. A collapsing spectral gap indicates network fragmentation---connectivity is becoming dominated by a single mode, reducing redundant pathways. We note that this is a network connectivity property and is distinct from May's (1972) stability criterion, which concerns the leading eigenvalue of the community (Jacobian) matrix of population dynamics. Properly computing May's criterion from the IO technical-coefficient matrix is reserved for future work.
+
+\subsection{Critical Slowing Down}
+
+Following Scheffer et al. (2009), we compute two metrics on monthly FRED series:
+
+\begin{align}
+\text{Variance}_t &= \text{Var}(x_{t-11:t}) \\
+\text{AR(1)}_t &= \text{Corr}(x_{t-11:t-1}, x_{t-10:t})
+\end{align}
+
+using 12-month strictly trailing rolling windows. Rising variance and rising autocorrelation jointly indicate critical slowing down---the system is returning to equilibrium more slowly after perturbations, a theoretically grounded precursor to fold bifurcations (Scheffer et al., 2009).
+
+\subsection{Monthly Expansion}
+
+\subsubsection{From Annual to Monthly Frequency}
+
+The BEA Input-Output tables are published annually, yielding only 8 observations for the 2002--2009 period. To enable monthly-resolution analysis, we expand to monthly frequency (n = 96) using cubic spline interpolation of the annual EBI, spectral gap, and top-3 concentration metrics.
+
+\textbf{Interpolation leakage caveat.} Cubic spline interpolation uses future anchor points to set present values: the interpolated value at, say, March 2007 is mathematically informed by the 2008 and 2009 annual observations. This means the network features (EBI, spectral gap) in the training period are functions of validation-period data, which formally voids the out-of-sample claim for these specific features. The native monthly FRED features (housing variance, bank credit variance, credit spread variance, AR(1) counterparts) do not have this problem. Readers should interpret predictive results for the interpolated features as retrospective pattern analysis rather than genuine out-of-sample forecasting. Future work will address this via causal interpolation using only past anchor points, or by restricting network analysis to honest annual resolution.
+
+\textbf{Effective sample size caveat.} Even setting aside the leakage issue, the interpolated network metrics contain 8 independent annual observations smoothed to 96 monthly points. The effective sample size for these features is closer to 8 than 96. The monthly FRED features provide genuine monthly resolution and drive the primary predictive results.
+
+\subsubsection{GNN Architecture (Preliminary)}
+\label{sec:gnn}
+
+As a preliminary exploration, we trained a Graph Neural Network on the monthly feature set. We construct a graph with 8 nodes (features) and edges connecting features with Pearson correlation $|r| > 0.3$. The GNN uses three GCNConv layers (Hamilton et al., 2017) with batch normalization and dropout. Full architectural details are provided in Appendix~\ref{app:gnn}.
+
+Given the methodological limitations described above---particularly the small effective sample size, interpolation leakage in network features, and GNN instability across seeds---we treat the GNN as a preliminary result and do not report it as a primary finding. The logistic regression is our primary reproducible model.
+
+% ============================================================
+\section{Results}
+% ============================================================
+
+\subsection{Ecological Resilience Indicators}
+
+Figure~\ref{fig:signals} shows the three primary ecological signals at monthly resolution.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{../data/monthly_signals.png}
+\caption{Monthly ecological signals (2002--2009). Top: Economic Biodiversity Index, interpolated from annual BEA data (note: subject to interpolation leakage caveat in Section 2.6.1). Middle: Spectral gap of the sector dependency network (same caveat). Bottom: Housing starts variance (critical slowing down signal, native monthly resolution). Red shading indicates the crisis period (August 2007--June 2009).}
+\label{fig:signals}
+\end{figure}
+
+In this retrospective analysis, the EBI peaked in 2005 at approximately 3.00 and declined through the crisis onset. The spectral gap dropped from 0.0085 in 2004 to 0.005 by late 2007. Housing starts variance exhibited the earliest and strongest signal, surging to approximately 40,000 in mid-2005 and declining continuously thereafter---approximately 18 months before the official crisis onset. This is the cleanest result in the paper: a native monthly series, no interpolation, and a signal that is theoretically interpretable as critical slowing down in the housing market.
+
+\subsection{Keystone Sector Identification}
+
+Betweenness centrality analysis of the 2006 network identified the most central sectors: Utilities (0.091), Chemical Products (0.082), and Rental \& Leasing Services (0.079). We note that Finance and Banking do not appear among the top betweenness-central sectors despite this being a financial crisis. This is likely a consequence of two factors: (1) betweenness centrality on a dense weighted graph is sensitive to the unspecified choice of flow-to-distance conversion, and (2) the BEA IO network captures real-economy production flows rather than financial exposure networks, which are the actual contagion channel for a banking crisis. Future work should apply contagion-appropriate centrality measures (e.g., DebtRank) to financial exposure networks rather than supply-chain networks.
+
+\subsection{Predictive Performance}
+
+Table~\ref{tab:models} presents the model comparison. Our primary result is the logistic regression (AUC = 0.944 without the coincident consumer credit feature), which is reproducible and not subject to seed-selection bias. All results are subject to the single-crisis caveat described in Section~\ref{sec:limitations}.
+
+\begin{table}[H]
+\centering
+\caption{Model performance comparison. Primary result is logistic regression without coincident indicator (AUC = 0.944). GNN results are reported for completeness in Appendix~\ref{app:gnn} but are not primary findings due to initialization instability and methodological limitations.}
+\label{tab:models}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Model} & \textbf{AUC} & \textbf{Data Scale} \\
+\midrule
+\textbf{Logistic Regression (primary)} & \textbf{0.944} & Monthly (n=96) \\
+Housing variance (single feature) & 0.954 & Monthly (n=96) \\
+Fed funds rate (single feature) & 0.944 & Monthly (n=96) \\
+Logistic Regression (with coincident feature\textsuperscript{*}) & 0.972 & Monthly (n=96) \\
+Logistic Regression & 0.867 & Annual (n=8) \\
+Random Forest & 0.733 & Annual (n=8) \\
+Random Forest & 0.458 & Monthly (n=96) \\
+\bottomrule
+\end{tabular}
+\vspace{4pt}
+
+\textsuperscript{*}Consumer credit (AUC = 1.000 as single feature) is a coincident indicator---it moves simultaneously with the crisis rather than preceding it and is unsuitable for early warning. Its inclusion inflates logistic regression AUC from 0.944 to 0.972.
+\end{table}
+
+\subsection{The Annual GNN Failure}
+
+The GNN trained on 8 annual observations achieved AUC = 0.333---worse than random. This null result is instructive: the annual logistic regression (AUC = 0.867) substantially outperformed it, consistent with the principle that simpler models are preferable at very small effective sample sizes. Full GNN results across seeds are reported in Appendix~\ref{app:gnn}.
+
+% ============================================================
+\section{Discussion}
+% ============================================================
+
+\subsection{Summary of Findings}
+
+In a retrospective analysis of the 2002--2009 period, three ecological resilience indicators---Economic Biodiversity Index, spectral gap, and housing starts critical slowing down---all deteriorated before the 2008 financial crisis. The housing starts variance signal, which is methodologically cleanest (native monthly resolution, no interpolation leakage), peaked approximately 18 months before crisis onset. Logistic regression on these features achieves AUC = 0.944 as a reproducible primary result.
+
+\subsection{Limitations}
+\label{sec:limitations}
+
+\textbf{Single crisis.} This analysis is limited to one historical episode. With n = 1 crisis, no classification metric has its standard interpretation---the effective unit of analysis for a crisis-prediction task is the crisis episode, not the monthly observation, and autocorrelated observations within a single episode do not provide independent evidence. Generalizability requires multi-crisis evaluation with leave-one-crisis-out cross-validation across at minimum the 2001 dot-com bust and additional episodes. The 2020 COVID shock is a theoretically interesting case: because it was an exogenous shock rather than an endogenous approach to a bifurcation, our framework predicts that critical slowing down signals should \textit{not} appear before 2020---making it a useful negative control rather than an additional positive example. Testing this is a priority for future work.
+
+\textbf{Interpolation leakage.} As described in Section 2.6.1, cubic spline interpolation of annual BEA data uses future anchor points, formally voiding the out-of-sample claim for EBI and spectral gap features. The housing starts variance result is not subject to this limitation.
+
+\textbf{Wrong network for a financial crisis.} The BEA IO network captures real-economy production flows, not financial exposure networks. The 2008 crisis propagated through mortgage securitization, interbank lending, and CDS exposures---channels that do not appear in IO tables. This likely explains why betweenness centrality fails to identify Finance as a keystone sector. Future work should construct a financial exposure network and apply ecological metrics there.
+
+\textbf{GNN instability.} Across 5 random seeds, validation AUC ranged from 0.000 to 1.000 (mean = 0.361, SD = 0.440). The best-seed result (AUC = 0.993) is reported in Appendix~\ref{app:gnn} for completeness but is a product of seed selection on the validation set, which is methodologically equivalent to fitting the test data. It is not a reliable performance estimate.
+
+\textbf{No false-positive analysis.} We do not test whether these signals also fire during calm periods (2010--2019). A signal that fires before 2008 but also fires in 2004, 2014, and 2016 provides no early warning value. False-positive analysis across the full available history is required before any deployment claim can be made.
+
+\textbf{No significance testing.} Signal trends are reported descriptively. Kendall-$\tau$ trend statistics and surrogate-null significance tests are needed to distinguish genuine pre-crisis deterioration from noise.
+
+\subsection{Future Work}
+
+\textbf{Multi-crisis panel with leave-one-out evaluation.} The single highest-leverage improvement. Add 2001, 2020 (as negative control), and cross-country episodes; evaluate with leave-one-crisis-out cross-validation.
+
+\textbf{Financial exposure network.} Construct a genuine financial network from FFIEC Call Reports or equity-return correlations and apply ecological metrics there---where the contagion actually happened.
+
+\textbf{Community matrix and May's criterion.} Build the economic community matrix from the IO technical-coefficient matrix and compute the actual May stability criterion (leading eigenvalue of the Jacobian), rather than the spectral gap of the adjacency matrix.
+
+\textbf{Significance testing and false-positive analysis.} Kendall-$\tau$ with surrogate nulls for every signal; full false-positive analysis across calm periods.
+
+\textbf{Real-time data.} Pull real-time ALFRED vintages to ensure signals use only data available at decision time.
+
+\textbf{GNN on the actual sector graph.} If retaining deep learning, operate on the 68-node IO graph with a spatiotemporal architecture rather than the 8-node feature-correlation graph.
+
+\subsection{Conclusion}
+
+The structural mapping between ecosystems and economies is theoretically motivated and connects to a rich literature on complexity and systemic risk. In a retrospective analysis of one crisis episode, ecological resilience indicators showed coherent pre-crisis deterioration. Whether these signals provide genuine out-of-sample early warning value---distinct from standard macroeconomic indicators and robust across multiple crises and calm periods---remains an open empirical question that this paper cannot answer with a single event. We propose the ecological framework as a theoretically grounded direction for future systemic risk research, with the methodological agenda above as the necessary next steps.
+
+% ============================================================
+\section*{Acknowledgments}
+% ============================================================
+
+We thank the Bureau of Economic Analysis and Federal Reserve Economic Data for public access to their datasets. All code is available at \url{https://github.com/Abhiv1028/EcoEcon}.
+
+% ============================================================
+\appendix
+\section{GNN Architecture and Full Results}
+\label{app:gnn}
+
+The GNN architecture and full seed results are reported here for completeness. These results are not primary findings of this paper due to the methodological limitations described in Section~\ref{sec:limitations}.
+
+We construct a monthly dataset where each month is represented as a graph with 8 nodes (features) and edges connecting features with Pearson correlation $|r| > 0.3$. The GNN uses three GCNConv layers (Hamilton et al., 2017) with batch normalization and dropout:
+
+\begin{itemize}
+    \item GCNConv(1, 32) $\rightarrow$ BatchNorm $\rightarrow$ ReLU $\rightarrow$ Dropout(0.4)
+    \item GCNConv(32, 16) $\rightarrow$ BatchNorm $\rightarrow$ ReLU $\rightarrow$ Dropout(0.4)
+    \item GCNConv(16, 8) $\rightarrow$ ReLU $\rightarrow$ Global Mean Pooling $\rightarrow$ Linear(8, 1) $\rightarrow$ Sigmoid
+\end{itemize}
+
+Training uses the first 72 months (2002--2007), validation on months 73--96 (2008--2009), Adam optimizer, binary cross-entropy loss. Across 5 random seeds, validation AUC ranged from 0.000 to 1.000 (mean = $0.361 \pm 0.440$). The best-seed result (AUC = 0.993) is included here for reference only; it was selected by validation performance and is not an unbiased estimate. The mean AUC of 0.361 is the honest headline.
+
+This instability reflects the fundamental mismatch between model capacity (3-layer GCN with BatchNorm and Dropout) and effective sample size (~8 independent observations). The graph structure---8 feature-nodes connected by feature correlations---also injects no external relational knowledge; the GCN layers add little that an MLP could not do. Future work will address both issues by operating on the actual 68-node sector graph with a spatiotemporal architecture.
+
+\begin{table}[H]
+\centering
+\caption{Full GNN results including primary logistic regression for reference.}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Model} & \textbf{AUC} & \textbf{Data Scale} \\
+\midrule
+Logistic Regression (primary, no coincident feature) & 0.944 & Monthly (n=96) \\
+\midrule
+GNN best seed (seed selection on val set --- not reliable) & 0.993 & Monthly (n=96) \\
+GNN mean of 5 seeds & $0.361 \pm 0.440$ & Monthly (n=96) \\
+GNN (no pretraining, annual) & 0.333 & Annual (n=8) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================================
+\begin{thebibliography}{99}
+
+\bibitem{may1972}
+May, R.M. (1972).
+Will a large complex system be stable?
+\textit{Nature}, 238, 413--414.
+
+\bibitem{scheffer2009}
+Scheffer, M., Bascompte, J., Brock, W.A., et al. (2009).
+Early-warning signals for critical transitions.
+\textit{Nature}, 461, 53--59.
+
+\bibitem{acemoglu2015}
+Acemoglu, D., Ozdaglar, A., \& Tahbaz-Salehi, A. (2015).
+Systemic risk and stability in financial networks.
+\textit{American Economic Review}, 105(2), 564--608.
+
+\bibitem{haldane2011}
+Haldane, A.G. \& May, R.M. (2011).
+Systemic risk in banking ecosystems.
+\textit{Nature}, 469, 351--355.
+
+\bibitem{allesina2012}
+Allesina, S. \& Tang, S. (2012).
+Stability criteria for complex ecosystems.
+\textit{Nature}, 483, 205--208.
+
+\bibitem{shannon1948}
+Shannon, C.E. (1948).
+A mathematical theory of communication.
+\textit{Bell System Technical Journal}, 27, 379--423.
+
+\bibitem{hamilton2017}
+Hamilton, W.L., Ying, R., \& Leskovec, J. (2017).
+Inductive representation learning on large graphs.
+\textit{Advances in Neural Information Processing Systems}, 30.
+
+\bibitem{reinhart2009}
+Reinhart, C.M. \& Rogoff, K.S. (2009).
+\textit{This Time Is Different: Eight Centuries of Financial Folly}.
+Princeton University Press.
+
+\end{thebibliography}
+
+\end{document}
