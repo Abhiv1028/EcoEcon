@@ -1,0 +1,3 @@
+model,loo_auc,n_train,evaluation,scaler
+Logistic Regression,1.0,7,LOO,RobustScaler (pre-crisis fit)
+Random Forest,0.4,7,LOO,RobustScaler (pre-crisis fit)
