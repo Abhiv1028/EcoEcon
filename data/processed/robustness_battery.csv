@@ -1,0 +1,11 @@
+test,LR_LOO_AUC,Kendall_tau,p_value
+Crisis onset = 2007,,,
+Crisis onset = 2008,1.0,,
+Housing var window = 12mo,,0.6,0.233
+Housing var window = 18mo,,0.6,0.233
+Housing var window = 24mo,,1.0,0.017
+Housing var window = 36mo,,1.0,0.017
+Feature set: Network only,0.4,,
+Feature set: CSD only,1.0,,
+Feature set: Full (baseline),1.0,,
+Feature set: No EBI,1.0,,
