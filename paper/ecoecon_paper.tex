@@ -8,7 +8,6 @@
 \usepackage{booktabs}
 \usepackage{caption}
 \usepackage{subcaption}
-\usepackage[numbers]{natbib}
 \usepackage{float}
 \usepackage{xcolor}
 
@@ -60,15 +59,15 @@ approaches: most official forecasts in 2007 projected continued growth
 
 Ecology faces a structurally analogous problem: detecting when a stable ecosystem is
 approaching collapse. Over five decades, ecologists have developed a robust theoretical
-framework for understanding stability and collapse in complex systems. \citet{may1972}
+framework for understanding stability and collapse in complex systems. May (1972)
 proved that complexity itself can be destabilizing---above a critical threshold of
 diversity and connectance, large random systems become inherently unstable.
-\citet{scheffer2009} demonstrated that many complex systems exhibit ``critical slowing
+Scheffer et al. (2009) demonstrated that many complex systems exhibit ``critical slowing
 down'' before tipping points: rising variance and autocorrelation in key state variables
-as the system loses resilience. \citet{acemoglu2015} showed that financial networks
+as the system loses resilience. Acemoglu et al. (2015) showed that financial networks
 exhibit phase transitions where diversification reduces individual risk up to a point,
 beyond which it amplifies systemic fragility through contagion channels.
-\citet{haldane2011} applied this ecological analogy directly to banking systems,
+Haldane and May (2011) applied this ecological analogy directly to banking systems,
 demonstrating that the same complexity-fragility tradeoff governs interbank contagion
 networks.
 
@@ -94,7 +93,7 @@ metrics. We note one important theoretical correction relative to standard ecolo
 analogies: supplier-buyer relationships in IO networks are structurally closer to
 \textit{mutualistic} interactions (+/+) than predator-prey interactions (+/$-$), since
 both parties benefit from the transaction. This distinction matters because
-\citet{allesina2012} showed that mutualistic networks destabilize more rapidly with
+Allesina and Tang (2012) showed that mutualistic networks destabilize more rapidly with
 increasing diversity and connectance than predator-prey networks---placing economic IO
 networks in a potentially more fragile stability regime than the predator-prey framing
 would imply.
@@ -189,7 +188,7 @@ sector adjustment dynamics and self-regulation terms; this is reserved for futur
 
 \subsection{Critical Slowing Down}
 
-Following \citet{scheffer2009}, we compute two metrics on monthly FRED series using
+Following Scheffer et al. (2009), we compute two metrics on monthly FRED series using
 24-month strictly trailing rolling windows:
 
 \begin{align}
@@ -198,7 +197,7 @@ Following \citet{scheffer2009}, we compute two metrics on monthly FRED series us
 \end{align}
 
 Rising variance and rising autocorrelation jointly indicate critical slowing down.
-This is theoretically grounded for fold bifurcations \citep{scheffer2009}: as a system
+This is theoretically grounded for fold bifurcations (Scheffer et al., 2009): as a system
 approaches a tipping point, the dominant eigenvalue of the linearized recovery dynamics
 approaches zero, causing perturbations to decay increasingly slowly. We note that CSD
 is only theoretically expected for \textit{endogenous} approaches to bifurcation, not
@@ -208,10 +207,9 @@ for exogenous shocks---motivating the 2020 negative control.
 
 We compute Kendall's $\tau$ rank correlation between year and each signal over the
 pre-crisis window for both episodes. Kendall's $\tau$ is appropriate for small samples
-with potential non-normality and is the standard in the EWS literature
-\citep{scheffer2009}. A positive $\tau$ indicates a rising trend; the sign is adjusted
-so that positive always means ``moving toward risk'' (rising for variance signals,
-declining for biodiversity/connectivity signals).
+with potential non-normality and is the standard in the EWS literature (Scheffer et al., 2009).
+A positive $\tau$ indicates a rising trend; the sign is adjusted so that positive always means
+``moving toward risk'' (rising for variance signals, declining for biodiversity/connectivity signals).
 
 \subsection{Machine Learning Evaluation}
 
@@ -472,7 +470,7 @@ unify network and CSD signals under a single eigenvalue framework.
 \item \textbf{Real-time data.} Pull ALFRED real-time vintages.
 
 \item \textbf{Benchmark comparison.} Test incremental value beyond credit-to-GDP
-gap \citep{borio2002} and yield-curve inversion.
+gap (Borio and Lowe, 2002) and yield-curve inversion.
 
 \item \textbf{GNN on actual sector graph.} 68-node IO graph with spatiotemporal
 architecture; pretrain on real IUCN extinction cascade data.
