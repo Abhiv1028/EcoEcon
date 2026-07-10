@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  10 JUL 2026 00:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  10 JUL 2026 00:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -460,23 +460,13 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 27.
 (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-! Undefined control sequence.
-l.58 \citep
-           {reinhart2009}.
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
 
 [1
 
 {/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 
 [2]
-Overfull \hbox (47.78903pt too wide) in paragraph at lines 178--182
+Overfull \hbox (47.78903pt too wide) in paragraph at lines 177--181
 \OT1/cmr/m/n/12 technical-coefficient ad-ja-cency ma-trix. A col-laps-ing spec-
 tral gap in-di-cates net-work fragmentation---
  []
@@ -484,7 +474,7 @@ tral gap in-di-cates net-work fragmentation---
 
 
 [3]
-Overfull \hbox (38.34921pt too wide) in paragraph at lines 246--262
+Overfull \hbox (38.34921pt too wide) in paragraph at lines 245--261
  [][] 
  []
 
@@ -495,12 +485,12 @@ Overfull \hbox (38.34921pt too wide) in paragraph at lines 246--262
 File: ../data/figures/fig1_signal_table.png Graphic file (type png)
 <use ../data/figures/fig1_signal_table.png>
 Package pdftex.def Info: ../data/figures/fig1_signal_table.png  used on input l
-ine 266.
+ine 265.
 (pdftex.def)             Requested size: 452.9679pt x 568.91248pt.
 
 
 [5]
-Overfull \hbox (11.5482pt too wide) in paragraph at lines 278--281
+Overfull \hbox (11.5482pt too wide) in paragraph at lines 277--280
 []\OT1/cmr/bx/n/12 Housing starts vari-ance \OT1/cmr/m/n/12 surged from 6,479 i
 n 2002 to 25,323 in 2006 be-fore declining---
  []
@@ -513,39 +503,31 @@ n 2002 to 25,323 in 2006 be-fore declining---
 File: ../data/figures/fig2_endogenous_vs_exogenous.png Graphic file (type png)
 <use ../data/figures/fig2_endogenous_vs_exogenous.png>
 Package pdftex.def Info: ../data/figures/fig2_endogenous_vs_exogenous.png  used
- on input line 290.
+ on input line 289.
 (pdftex.def)             Requested size: 452.9679pt x 299.14201pt.
-<../data/figures/fig5_false_positive_analysis.png, id=159, 931.8012pt x 711.618
-6pt>
-File: ../data/figures/fig5_false_positive_analysis.png Graphic file (type png)
-<use ../data/figures/fig5_false_positive_analysis.png>
-Package pdftex.def Info: ../data/figures/fig5_false_positive_analysis.png  used
- on input line 311.
-(pdftex.def)             Requested size: 452.9679pt x 345.93813pt.
 
 
 [7 <../data/figures/fig2_endogenous_vs_exogenous.png>]
-<../data/figures/fig6_kendall_tau.png, id=167, 1004.0712pt x 427.3566pt>
+<../data/figures/fig6_kendall_tau.png, id=166, 1004.0712pt x 427.3566pt>
 File: ../data/figures/fig6_kendall_tau.png Graphic file (type png)
 <use ../data/figures/fig6_kendall_tau.png>
 Package pdftex.def Info: ../data/figures/fig6_kendall_tau.png  used on input li
-ne 321.
+ne 331.
 (pdftex.def)             Requested size: 452.9679pt x 192.79123pt.
-
-
-[8 <../data/figures/fig5_false_positive_analysis.png> <../data/figures/fig6_ken
-dall_tau.png>]
-<../data/figures/fig4_network_structure.png, id=177, 1147.6476pt x 498.1812pt>
+<../data/figures/fig4_network_structure.png, id=167, 1147.6476pt x 498.1812pt>
 File: ../data/figures/fig4_network_structure.png Graphic file (type png)
 <use ../data/figures/fig4_network_structure.png>
 Package pdftex.def Info: ../data/figures/fig4_network_structure.png  used on in
-put line 338.
+put line 348.
 (pdftex.def)             Requested size: 452.9679pt x 196.63118pt.
-<../data/figures/fig7_results_summary.png, id=178, 1004.0712pt x 427.8384pt>
+
+
+[8 <../data/figures/fig6_kendall_tau.png>]
+<../data/figures/fig7_results_summary.png, id=176, 1004.0712pt x 427.8384pt>
 File: ../data/figures/fig7_results_summary.png Graphic file (type png)
 <use ../data/figures/fig7_results_summary.png>
 Package pdftex.def Info: ../data/figures/fig7_results_summary.png  used on inpu
-t line 374.
+t line 384.
 (pdftex.def)             Requested size: 452.9679pt x 193.00858pt.
 
 
@@ -566,10 +548,10 @@ Package rerunfilecheck Info: File `ecoecon_paper.out' has not changed.
 (rerunfilecheck)             Checksum: 4CCAEE67447E5A66EF52AF7739078C01;4040.
  ) 
 Here is how much of TeX's memory you used:
- 12364 strings out of 473190
- 194596 string characters out of 5715801
- 606543 words of memory out of 5000000
- 35401 multiletter control sequences out of 15000+600000
+ 12358 strings out of 473190
+ 194220 string characters out of 5715801
+ 606617 words of memory out of 5000000
+ 35395 multiletter control sequences out of 15000+600000
  571093 words of font info for 84 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,15n,79p,408b,566s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -587,10 +569,10 @@ exlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/tex
 live/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texl
 ive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/texli
 ve/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on ecoecon_paper.pdf (13 pages, 1151125 bytes).
+Output written on ecoecon_paper.pdf (13 pages, 1000011 bytes).
 PDF statistics:
- 312 PDF objects out of 1000 (max. 8388607)
+ 310 PDF objects out of 1000 (max. 8388607)
  254 compressed objects within 3 object streams
  79 named destinations out of 1000 (max. 500000)
- 231 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 226 words of extra memory for PDF output out of 10000 (max. 10000000)
 

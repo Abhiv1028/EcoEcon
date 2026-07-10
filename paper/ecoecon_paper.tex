@@ -54,8 +54,7 @@ systemic risk research.
 Financial crises remain notoriously difficult to predict. Standard early warning systems
 rely on macroeconomic aggregates---credit growth, asset prices, current account
 deficits---yet the 2008 Global Financial Crisis exposed the limitations of these
-approaches: most official forecasts in 2007 projected continued growth
-\citep{reinhart2009}.
+approaches: most official forecasts in 2007 projected continued growth (Reinhart and Rogoff, 2009).
 
 Ecology faces a structurally analogous problem: detecting when a stable ecosystem is
 approaching collapse. Over five decades, ecologists have developed a robust theoretical
@@ -306,13 +305,24 @@ We test whether the spectral gap signal fires during calm periods (2010--2014 an
 2015--2019). Spectral gap produces \textbf{zero false alarms} across ten calm-period
 years.
 
-\begin{figure}[H]
+\begin{table}[H]
 \centering
-\includegraphics[width=\textwidth]{../data/figures/fig5_false_positive_analysis.png}
 \caption{False positive analysis. Spectral gap across all periods. Zero false alarms
 in ten calm-period years.}
-\label{fig:fp}
-\end{figure}
+\label{tab:fp}
+\begin{tabular}{llll}
+\toprule
+\textbf{Period} & \textbf{Type} & \textbf{Spectral gap trend} & \textbf{Signal fires?} \\
+\midrule
+2002-2007 & Pre-crisis (2008) & Declining $\downarrow$ & YES -- correct \\
+2008-2009 & Crisis (2008) & Collapse & -- \\
+2010-2014 & Calm (post-GFC) & Mixed & NO -- correct \\
+2015-2019 & Calm (pre-COVID) & Mixed & NO -- correct \\
+2015-2020 & Pre-crisis (2020) & No trend & NO -- correct \\
+2020-2021 & Crisis (2020) & -- & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsection{Trend Significance}
 
@@ -504,6 +514,7 @@ Pearson correlation $|r| > 0.3$, computed on pre-crisis training data only.
 \begin{table}[H]
 \centering
 \caption{GNN results (appendix). Not primary findings.}
+\label{tab:gnn}
 \begin{tabular}{lcc}
 \toprule
 \textbf{Model} & \textbf{AUC} & \textbf{Evaluation} \\
