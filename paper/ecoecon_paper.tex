@@ -1,7 +1,6 @@
 
 \documentclass[12pt,a4paper]{article}
 
-% ---- Packages ----
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
@@ -9,7 +8,7 @@
 \usepackage{booktabs}
 \usepackage{caption}
 \usepackage{subcaption}
-\usepackage{natbib}
+\usepackage[numbers]{natbib}
 \usepackage{float}
 \usepackage{xcolor}
 
@@ -50,9 +49,7 @@ resilience indicators as a theoretically grounded and empirically promising dire
 systemic risk research.
 \end{abstract}
 
-% ============================================================
 \section{Introduction}
-% ============================================================
 
 Financial crises remain notoriously difficult to predict. Standard early warning systems
 rely on macroeconomic aggregates---credit growth, asset prices, current account
@@ -87,9 +84,7 @@ We make no claim that these signals would have been detectable in real time or t
 they generalize beyond this single positive episode. That question requires multi-crisis
 validation outside the scope of this retrospective study.
 
-% ============================================================
 \section{Methods}
-% ============================================================
 
 \subsection{Variable Mapping}
 
@@ -236,9 +231,7 @@ permutation test (1000 permutations of crisis labels).
 2020 episode without retraining. Theory predicts near-zero crisis probability for
 2015--2019 (pre-COVID calm).
 
-% ============================================================
 \section{Results}
-% ============================================================
 
 \subsection{Signal Analysis: Which Ecological Metrics Work?}
 
@@ -260,9 +253,9 @@ pre-crisis years. For the 2020 negative control, theory predicts no significant 
 \midrule
 Spectral gap & $-0.87$ & \textcolor{green!60!black}{$\checkmark$ Declining} & $+0.20$ & \textcolor{green!60!black}{$\checkmark$ No trend} \\
 Housing starts var & $+1.00$ & \textcolor{green!60!black}{$\checkmark$ Rising (peaks 2006)} & $-0.80$ & \textcolor{green!60!black}{$\checkmark$ Declining} \\
-EBI & $+0.20$ & \textcolor{red!70!black}{$\times$ Wrong direction} & $+0.80$ & \textcolor{orange!80!black}{$\sim$ Rising (network change)} \\
+EBI & $+0.20$ & \textcolor{red!70!black}{$\times$ Wrong direction} & $+0.80$ & \textcolor{orange!80!black}{$\sim$ Rising} \\
 Housing starts AR(1) & $-0.60$ & \textcolor{red!70!black}{$\times$ Wrong direction} & $-0.40$ & \textcolor{green!60!black}{$\checkmark$ No buildup} \\
-TED spread var & $+0.40$ & \textcolor{orange!80!black}{$\sim$ Coincident only} & $+1.00$ & \textcolor{red!70!black}{$\times$ Slow rise (FP risk)} \\
+TED spread var & $+0.40$ & \textcolor{orange!80!black}{$\sim$ Coincident only} & $+1.00$ & \textcolor{red!70!black}{$\times$ Slow rise} \\
 \midrule
 \textbf{Summary} & \multicolumn{2}{c}{2/5 signals as theorized} & \multicolumn{2}{c}{3/5 clean, 1 ambiguous, 1 FP} \\
 \bottomrule
@@ -274,39 +267,31 @@ TED spread var & $+0.40$ & \textcolor{orange!80!black}{$\sim$ Coincident only} &
 \includegraphics[width=\textwidth]{../data/figures/fig1_signal_table.png}
 \caption{Ecological early warning signals, 2008 GFC episode. Red shading indicates
 crisis period (Dec 2007--Jun 2009). Verdicts indicate whether each signal moved in
-the theoretically predicted direction pre-crisis. Two of five signals (spectral gap,
-housing starts variance) behaved as theorized.}
+the theoretically predicted direction pre-crisis. Two of five signals behaved as
+theorized.}
 \label{fig:signals}
 \end{figure}
 
 \textbf{Spectral gap} declined monotonically from 0.313 in 2002 to 0.221 in 2007
 ($\tau = -0.87$), indicating progressive network fragmentation in the pre-crisis
-period. This is the cleanest ecological network signal: it moves in the theoretically
-predicted direction and shows no false alarms in calm periods.
+period. This is the cleanest ecological network signal.
 
 \textbf{Housing starts variance} surged from 6,479 in 2002 to 25,323 in 2006 before
-declining---approximately 18 months before official crisis onset. This is the strongest
-and most temporally precise signal. It is also methodologically clean: native monthly
-resolution, no interpolation.
+declining---approximately 18 months before official crisis onset. This signal is
+methodologically clean: native monthly resolution, no interpolation.
 
-\textbf{EBI} moved in the wrong direction (rising slightly pre-crisis when theory
-predicts decline). \textbf{Housing starts AR(1)} also went the wrong direction
-(becoming more negative, not rising toward 1 as CSD theory predicts). \textbf{TED
-spread variance} was elevated only at crisis onset, not before---it is a coincident
-indicator, not a leading one.
+\textbf{EBI} moved in the wrong direction. \textbf{Housing starts AR(1)} also went
+the wrong direction (becoming more negative, not rising toward 1). \textbf{TED spread
+variance} was elevated only at crisis onset---a coincident indicator, not a leading one.
 
 \subsection{The 2020 Negative Control}
-
-Figure~\ref{fig:negcontrol} shows the endogenous-versus-exogenous comparison.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{../data/figures/fig2_endogenous_vs_exogenous.png}
 \caption{Signal comparison: 2008 GFC (endogenous fold, signal expected) versus 2020
-COVID (exogenous shock, no signal expected). Left column: spectral gap. Right column:
-housing starts variance. Theory predicts the 2008 signals should trend toward risk;
-the 2020 signals should not. The contrast is consistent with theoretical predictions
-for both working signals.}
+COVID (exogenous shock, no signal expected). The contrast is consistent with theoretical
+predictions for both working signals.}
 \label{fig:negcontrol}
 \end{figure}
 
@@ -314,78 +299,55 @@ For spectral gap, the 2020 episode shows no directional trend pre-crisis
 ($\tau = +0.20$), compared to the monotonic decline before 2008 ($\tau = -0.87$).
 For housing starts variance, pre-COVID values were declining 2015--2019---the opposite
 of the pre-2008 buildup. These results are consistent with the theoretical prediction
-that CSD signals should be specific to endogenous bifurcation approaches, not
-exogenous shocks.
+that CSD signals should be specific to endogenous bifurcation approaches.
 
 \subsection{False Positive Analysis}
 
-We test whether the spectral gap signal fires during calm periods (2010--2014 post-GFC
-recovery; 2015--2019 pre-COVID expansion). Using a threshold of one standard deviation
-above the calm-period mean, spectral gap produces \textbf{zero false alarms} across
-ten calm-period years. Figure~\ref{fig:fp} shows the full cross-period comparison.
+We test whether the spectral gap signal fires during calm periods (2010--2014 and
+2015--2019). Spectral gap produces \textbf{zero false alarms} across ten calm-period
+years.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{../data/figures/fig5_false_positive_analysis.png}
-\caption{False positive analysis. Spectral gap across all periods: 2008 episode
-(endogenous crisis), 2020 episode (exogenous shock), and two calm periods (post-GFC
-recovery 2010--2014; pre-COVID expansion 2015--2019). Zero false alarms in ten
-calm-period years.}
+\caption{False positive analysis. Spectral gap across all periods. Zero false alarms
+in ten calm-period years.}
 \label{fig:fp}
 \end{figure}
 
 \subsection{Trend Significance}
 
-Figure~\ref{fig:kendall} shows Kendall $\tau$ for all signals across both episodes.
-
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{../data/figures/fig6_kendall_tau.png}
-\caption{Kendall $\tau$ trend statistics. Left: 2008 GFC pre-crisis window (positive
-$\tau$ = rising toward risk). Right: 2020 negative control pre-crisis window. Theory
-predicts significant positive $\tau$ in the left panel for working signals, and
-non-significant $\tau$ in the right panel. Results are consistent with this prediction
-for spectral gap and housing starts variance.}
+\caption{Kendall $\tau$ trend statistics across both episodes. Results are consistent
+with theoretical predictions for spectral gap and housing starts variance.}
 \label{fig:kendall}
 \end{figure}
 
 \subsection{Keystone Sector Identification}
 
-Betweenness centrality analysis of the 2006 network---using technical coefficient
-normalization rather than raw dollar flows---identifies the three most central sectors
-as: Federal government enterprises (0.077), Chemical products (0.072), and
-\textbf{Federal Reserve banks, credit intermediation, and related activities (0.067)}.
-Finance correctly appears as the third most systemically important sector in the
-pre-crisis peak year. This corrects a failure in the raw-flow specification, where
-nominal volume effects caused Utilities and Chemicals to dominate. Figure~\ref{fig:network}
-shows the full keystone analysis.
+Betweenness centrality analysis of the 2006 network using technical coefficient
+normalization identifies: Federal government enterprises (0.077), Chemical products
+(0.072), and \textbf{Federal Reserve banks, credit intermediation, and related
+activities (0.067)}. Finance correctly appears as the third most central sector,
+correcting the raw-flow specification failure where nominal volume effects caused
+Utilities and Chemicals to dominate.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{../data/figures/fig4_network_structure.png}
-\caption{Network structure analysis. Left: keystone sector ranking, 2006 pre-crisis
-peak (technical coefficient normalization). Finance correctly identified as third most
-central sector. Right: spectral gap across both episodes, showing monotonic pre-crisis
-decline before 2008 but no trend before 2020.}
+\caption{Network structure analysis. Left: keystone sectors, 2006. Right: spectral
+gap across episodes.}
 \label{fig:network}
 \end{figure}
 
-We note that the IO network captures real-economy production flows, not financial
-exposure networks. The 2008 crisis propagated primarily through mortgage securitization,
-interbank lending, and CDS exposures---channels absent from IO tables. Future work
-should apply ecological metrics to financial exposure networks where the contagion
-actually occurred.
-
 \subsection{Predictive Performance}
-
-Table~\ref{tab:models} presents model performance from leave-one-out cross-validation.
-Figure~\ref{fig:results} summarizes all claims and their evidential status.
 
 \begin{table}[H]
 \centering
-\caption{Model performance. Primary result is logistic regression LOO AUC on the
-7-sample annual dataset. All scaling fitted on pre-crisis years only (RobustScaler).
-2007 excluded from training labels and tested separately as advance-warning test.}
+\caption{Model performance. LOO cross-validation. RobustScaler fitted on pre-crisis
+years only. 2007 excluded from training labels.}
 \label{tab:models}
 \begin{tabular}{lccc}
 \toprule
@@ -395,7 +357,7 @@ Figure~\ref{fig:results} summarizes all claims and their evidential status.
 Random Forest & 0.400 & LOO CV & 7 \\
 \midrule
 \multicolumn{4}{l}{\textit{Permutation test (LR): $p = 0.034$, null mean = 0.483}} \\
-\multicolumn{4}{l}{\textit{Advance warning test (2007, unlabeled): LR = 0.013, RF = 0.120}} \\
+\multicolumn{4}{l}{\textit{Advance warning test (2007): LR = 0.013, RF = 0.120}} \\
 \multicolumn{4}{l}{\textit{2020 negative control: LR assigns 0.002--0.004 pre-crisis}} \\
 \midrule
 GNN (appendix only) & $0.361 \pm 0.440$ & 5 seeds & 7 \\
@@ -404,189 +366,141 @@ GNN (appendix only) & $0.361 \pm 0.440$ & 5 seeds & 7 \\
 \vspace{4pt}
 
 \textit{Note: LOO AUC = 1.000 on n=7 has wide confidence intervals. The permutation
-test ($p = 0.034$) provides limited but non-trivial evidence against the null.
-Multi-crisis validation is required before strong predictive claims can be made.
-Random Forest underperforms Logistic Regression, consistent with overfitting at
-small sample sizes.}
+test ($p = 0.034$) provides limited but non-trivial evidence. Multi-crisis validation
+is required. Random Forest underperforms, consistent with overfitting at small n.}
 \end{table}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{../data/figures/fig7_results_summary.png}
-\caption{Honest claims and evidence summary. Green = supported by evidence,
-orange = not supported, yellow = reported but not claimed. The paper makes no
-predictive claim that is not grounded in the evidence shown.}
+\caption{Honest claims and evidence summary.}
 \label{fig:results}
 \end{figure}
 
-\textbf{Advance warning test.} Neither model fires on 2007 when trained without a
-2007 label (LR: 0.013, RF: 0.120). The models do not provide advance warning of the
-crisis in the year before official onset. This is an honest null result and is reported
-as such.
+\textbf{Advance warning test.} Neither model fires on 2007 (LR: 0.013, RF: 0.120).
+This is an honest null result.
 
-\textbf{2020 negative control (ML).} Logistic regression trained on 2008 assigns
-0.002--0.004 crisis probability to 2015--2019, with zero pre-crisis false alarms. This
-is the strongest result in the paper: a model trained on one crisis episode, applied
-without modification to a different episode, assigns near-zero probability to the
-pre-crisis calm period---consistent with the theoretical prediction that ecological
-signals should be quiet before an exogenous shock.
+\textbf{2020 negative control (ML).} Logistic regression assigns 0.002--0.004 crisis
+probability to 2015--2019 with zero false alarms---consistent with the theoretical
+prediction that ecological signals are quiet before an exogenous shock.
 
-% ============================================================
 \section{Discussion}
-% ============================================================
 
 \subsection{Summary of Findings}
 
-In a retrospective analysis across two crisis episodes, we find:
-
 \begin{enumerate}
-\item Two of five ecological signals---spectral gap and housing starts
-variance---behaved as theorized before the 2008 GFC, with spectral gap showing
-a monotonic five-year decline ($\tau = -0.87$) and housing starts variance peaking
-approximately 18 months before crisis onset.
+\item Two of five ecological signals---spectral gap ($\tau = -0.87$) and housing starts
+variance (peaks 18 months pre-crisis)---behaved as theorized before the 2008 GFC.
 
-\item The 2020 COVID negative control holds for four of five signals and for the
-machine learning model: no pre-crisis ecological buildup is detectable before an
-exogenous shock, consistent with the theoretical distinction between endogenous
-bifurcation and exogenous perturbation.
+\item The 2020 COVID negative control holds for four of five signals and for the ML
+model: no pre-crisis ecological buildup before an exogenous shock.
 
-\item Spectral gap produces zero false alarms across ten calm-period years,
-suggesting it is not merely tracking the business cycle.
+\item Spectral gap produces zero false alarms across ten calm-period years.
 
-\item Logistic regression achieves LOO AUC = 1.000 ($p = 0.034$) with wide
-confidence intervals given n=7; neither model provides advance warning in the year
-before crisis onset.
+\item Logistic regression achieves LOO AUC = 1.000 ($p = 0.034$); neither model
+provides advance warning in the year before crisis onset.
 
-\item Three signals (EBI, housing AR(1), TED spread variance) do not behave as
-theorized, providing honest evidence about the limits of the ecological mapping.
+\item Three signals did not behave as theorized, providing honest evidence about
+the limits of the ecological mapping.
 \end{enumerate}
 
 \subsection{What the Results Do and Do Not Show}
 
 These results support the ecological framework as theoretically motivated and
-empirically promising for two specific signals. They do not demonstrate that ecological
-signals provide actionable early warning in real time, that results generalize across
-crises, or that ecological indicators add information beyond standard macroeconomic
-predictors. The single positive episode means all metrics have wide confidence intervals.
+empirically promising for two specific signals. They do not demonstrate actionable
+real-time early warning, generalizability across crises, or incremental value beyond
+standard macroeconomic indicators.
 
 The most meaningful result is the combination: spectral gap works before an endogenous
-crisis and is quiet before an exogenous one. This is precisely the discriminating
-pattern the theory predicts, and it would be difficult to produce by chance with a
-single series.
+crisis and is quiet before an exogenous one---precisely the discriminating pattern
+the theory predicts.
 
 \subsection{The Wrong Network Problem}
 
-The BEA IO network captures real-economy production flows, not financial exposure
-networks. The 2008 crisis propagated through mortgage securitization, interbank
-lending, and CDS exposures---none of which appear in IO tables. The correct network
-for a financial crisis is a bank-level financial exposure network, where DebtRank and
-similar contagion-importance measures are appropriate. Applying ecological stability
-metrics to a financial exposure network constructed from FFIEC Call Reports or
-equity-return correlations is the most important single methodological improvement
-for future work.
+The BEA IO network captures supply-chain flows, not financial exposure networks. The
+2008 crisis propagated through mortgage securitization, interbank lending, and CDS
+exposures---none of which appear in IO tables. Applying ecological metrics to a
+financial exposure network from FFIEC Call Reports is the most important methodological
+improvement for future work.
 
 \subsection{The Theoretical Agenda}
 
-The paper implements May's stability theorem by name but computes the spectral gap
-of the adjacency matrix rather than the leading eigenvalue of the economic community
-(Jacobian) matrix. Properly computing May's criterion requires specifying sector
-adjustment dynamics---a dynamic Leontief-type model is the natural choice---and
-building the Jacobian from the technical-coefficient matrix with self-regulation
-terms on the diagonal. The leading real part of this Jacobian's eigenvalue rising
-toward zero is the genuine economic analog of ``approaching the stability boundary,''
-and it would unify the network fragmentation and critical slowing down signals: both
-are manifestations of the same underlying eigenvalue. This unification is the most
+This paper computes the spectral gap of the adjacency matrix rather than the leading
+eigenvalue of the economic community (Jacobian) matrix---May's actual criterion.
+Properly computing May's criterion requires a dynamic Leontief-type model and a
+Jacobian with self-regulation terms on the diagonal. The leading eigenvalue of this
+Jacobian rising toward zero would unify the network fragmentation and CSD signals:
+both are manifestations of the same underlying quantity. This unification is the most
 important theoretical contribution available to this research program.
 
 \subsection{Limitations}
 \label{sec:limitations}
 
-\textbf{Single positive episode.} All metrics have wide confidence intervals. LOO
-AUC = 1.000 on n=7 is consistent with the null hypothesis at conventional thresholds
-before the permutation test. Multi-crisis leave-one-out validation is required.
+\textbf{Single positive episode.} All metrics have wide confidence intervals.
+Multi-crisis leave-one-out validation is required.
 
 \textbf{Interpolation leakage.} Cubic spline interpolation of annual BEA data uses
-future anchor points. Network features (EBI, spectral gap) at monthly resolution are
-functions of future annual observations. Results using interpolated monthly features
-are retrospective pattern analysis, not genuine out-of-sample forecasting. The primary
-results use annual-resolution network metrics and native monthly CSD signals only.
+future anchor points. Primary results use annual-resolution network metrics and native
+monthly CSD signals only.
 
 \textbf{Wrong network.} IO network captures supply-chain flows, not financial
 contagion channels.
 
 \textbf{Signals that failed.} EBI, housing AR(1), and TED spread variance did not
-behave as theorized. EBI's failure may reflect the technical-coefficient normalization
-changing the entropy distribution in unexpected ways; AR(1) going negative suggests
-oscillatory rather than slowing-down dynamics in housing; TED spread variance is
-elevated at crisis onset rather than before it. These failures constrain which
-ecological mechanisms are supported by the data.
+behave as theorized. These failures constrain which ecological mechanisms are supported.
 
 \textbf{Robustness.} Results are robust to crisis onset dating (AUC = 1.000 under
 both December 2007 and January 2008 onset specifications). Housing starts variance
 Kendall $\tau$ is positive across all window lengths tested (12--36 months), ranging
 from 0.60 to 1.00, and is statistically significant at $p < 0.05$ for windows of
-24 months or longer. CSD signals alone achieve LOO AUC = 1.000, confirming that
-network metrics are not required for classification performance at this sample size;
-the network-only specification achieves AUC = 0.400, consistent with EBI being the
-weakest individual signal.
+24 months or longer. CSD signals alone achieve LOO AUC = 1.000; network-only
+achieves 0.400.
 
 \subsection{Future Work}
 
 \begin{enumerate}
-\item \textbf{Multi-crisis panel.} Add 2001 episode (pending resolution of SIC/NAICS
-classification incompatibility), cross-country panels. Evaluate with leave-one-crisis-out.
+\item \textbf{Multi-crisis panel.} Add 2001 episode and cross-country panels;
+evaluate with leave-one-crisis-out.
 
-\item \textbf{Financial exposure network.} Construct bank-level network from FFIEC
-Call Reports; apply EBI, spectral gap, and DebtRank.
+\item \textbf{Financial exposure network.} Construct from FFIEC Call Reports;
+apply EBI, spectral gap, and DebtRank.
 
-\item \textbf{Economic community matrix.} Build the Jacobian from IO technical
-coefficients; compute May's actual stability criterion; unify network and CSD signals
-under a single eigenvalue framework.
+\item \textbf{Economic community matrix.} Compute May's actual stability criterion;
+unify network and CSD signals under a single eigenvalue framework.
 
-\item \textbf{Real-time data.} Pull ALFRED real-time vintages to ensure no
-look-ahead from data revisions.
+\item \textbf{Real-time data.} Pull ALFRED real-time vintages.
 
-\item \textbf{Broader benchmark comparison.} Test whether ecological signals add
-incremental information beyond credit-to-GDP gap \citep{borio2002} and yield-curve
-inversion.
+\item \textbf{Benchmark comparison.} Test incremental value beyond credit-to-GDP
+gap \citep{borio2002} and yield-curve inversion.
 
-\item \textbf{GNN on the actual sector graph.} Operate on the 68-node IO graph
-with a spatiotemporal architecture; pretrain on real IUCN extinction cascade data
-rather than synthetic simulations.
+\item \textbf{GNN on actual sector graph.} 68-node IO graph with spatiotemporal
+architecture; pretrain on real IUCN extinction cascade data.
 \end{enumerate}
 
 \subsection{Conclusion}
 
-The ecological framework for systemic risk monitoring is theoretically motivated,
-connects to rigorous literature on complexity and stability, and produces two signals
-that behave as theorized in a retrospective analysis. The 2020 negative control
-provides discriminating evidence: ecological signals are quiet before an exogenous
-shock and elevated before an endogenous one, consistent with the underlying theory
-of fold bifurcations. Whether these signals provide actionable, generalizable early
-warning value beyond standard indicators remains an open question. We propose them
-as a theoretically grounded and empirically promising direction, with the methodological
-agenda above as the necessary next steps toward a publishable predictive claim.
+The ecological framework for systemic risk monitoring is theoretically motivated and
+produces two signals that behave as theorized. The 2020 negative control provides
+discriminating evidence: ecological signals are quiet before an exogenous shock and
+elevated before an endogenous one, consistent with fold bifurcation theory. Whether
+these signals provide actionable, generalizable early warning value beyond standard
+indicators remains open. We propose them as a theoretically grounded direction, with
+the methodological agenda above as the necessary next steps.
 
-% ============================================================
 \section*{Acknowledgments}
-% ============================================================
 
 We thank the Bureau of Economic Analysis and Federal Reserve Economic Data for public
 access to their datasets. All code is available at
 \url{https://github.com/Abhiv1028/EcoEcon}.
 
-% ============================================================
 \appendix
 \section{GNN Architecture and Full Results}
 \label{app:gnn}
 
-The GNN is reported here for completeness as a preliminary methodology demonstration.
-It is not a primary result of this paper.
+The GNN is a preliminary methodology demonstration, not a primary result.
 
 We construct a graph with 8 nodes (features) and edges connecting features with
-Pearson correlation $|r| > 0.3$, computed on pre-crisis training data only. The GNN
-uses two GCNConv layers with dropout and a linear classifier. Leave-one-out evaluation
-across seeds:
+Pearson correlation $|r| > 0.3$, computed on pre-crisis training data only.
 
 \begin{table}[H]
 \centering
@@ -595,23 +509,19 @@ across seeds:
 \toprule
 \textbf{Model} & \textbf{AUC} & \textbf{Evaluation} \\
 \midrule
-GNN (no ecological pretraining) & reported in notebook & LOO, 5 seeds \\
+GNN (no pretraining) & reported in notebook & LOO, 5 seeds \\
 GNN (synthetic ecological pretraining) & reported in notebook & LOO, 5 seeds \\
 \midrule
-\multicolumn{3}{l}{\textit{Best-seed result (AUC = 0.993) is not reported here.}} \\
-\multicolumn{3}{l}{\textit{It was selected by validation performance and is not}} \\
-\multicolumn{3}{l}{\textit{an unbiased estimate. See notebook 03 for full results.}} \\
+\multicolumn{3}{l}{\textit{Best-seed AUC = 0.993 selected by validation performance.}} \\
+\multicolumn{3}{l}{\textit{Not an unbiased estimate. See notebook 03 for full results.}} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The GNN architecture uses the 8-node feature-correlation graph rather than the actual
-68-node IO sector graph. This is a known limitation: the GCN layers add little over
-an MLP when the graph structure encodes no external relational knowledge. Future work
-will operate on the actual sector graph with a spatiotemporal architecture and pretrain
-on real IUCN extinction cascade data.
+The GNN uses the 8-node feature-correlation graph rather than the actual 68-node IO
+sector graph. Future work will use the actual sector graph with a spatiotemporal
+architecture and real IUCN extinction cascade pretraining.
 
-% ============================================================
 \begin{thebibliography}{99}
 
 \bibitem{may1972}
