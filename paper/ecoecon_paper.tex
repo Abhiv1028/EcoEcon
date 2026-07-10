@@ -11,12 +11,17 @@
 \usepackage[numbers]{natbib}
 \usepackage{float}
 \usepackage{xcolor}
+\usepackage{graphicx}
+
+% Tell LaTeX to look for images in the "figures" folder
+\graphicspath{{figures/}}
 
 \title{\textbf{EcoEcon: Ecological Resilience Indicators for Systemic Risk---A Retrospective Analysis of the 2008 Financial Crisis with a 2020 Negative Control}}
 
 \author{
     Abhinav Vaddi\\
-    \texttt{github.com/Abhiv1028/EcoEcon}
+    \texttt{avaddi2@wisc.edu}\\
+    University of Wisconsin--Madison
 }
 
 \date{\today}
@@ -264,7 +269,7 @@ TED spread var & $+0.40$ & \textcolor{orange!80!black}{$\sim$ Coincident only} &
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{../data/figures/fig1_signal_table.png}
+\includegraphics[width=\textwidth]{fig1_signal_table.png}
 \caption{Ecological early warning signals, 2008 GFC episode. Red shading indicates
 crisis period (Dec 2007--Jun 2009). Verdicts indicate whether each signal moved in
 the theoretically predicted direction pre-crisis. Two of five signals behaved as
@@ -288,7 +293,7 @@ variance} was elevated only at crisis onset---a coincident indicator, not a lead
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{../data/figures/fig2_endogenous_vs_exogenous.png}
+\includegraphics[width=\textwidth]{fig2_endogenous_vs_exogenous.png}
 \caption{Signal comparison: 2008 GFC (endogenous fold, signal expected) versus 2020
 COVID (exogenous shock, no signal expected). The contrast is consistent with theoretical
 predictions for both working signals.}
@@ -309,7 +314,7 @@ years.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{../data/figures/fig5_false_positive_analysis.png}
+\includegraphics[width=\textwidth]{fig5_false_positive_analysis.png}
 \caption{False positive analysis. Spectral gap across all periods. Zero false alarms
 in ten calm-period years.}
 \label{fig:fp}
@@ -319,7 +324,7 @@ in ten calm-period years.}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{../data/figures/fig6_kendall_tau.png}
+\includegraphics[width=\textwidth]{fig6_kendall_tau.png}
 \caption{Kendall $\tau$ trend statistics across both episodes. Results are consistent
 with theoretical predictions for spectral gap and housing starts variance.}
 \label{fig:kendall}
@@ -336,7 +341,7 @@ Utilities and Chemicals to dominate.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{../data/figures/fig4_network_structure.png}
+\includegraphics[width=\textwidth]{fig4_network_structure.png}
 \caption{Network structure analysis. Left: keystone sectors, 2006. Right: spectral
 gap across episodes.}
 \label{fig:network}
@@ -372,7 +377,7 @@ is required. Random Forest underperforms, consistent with overfitting at small n
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{../data/figures/fig7_results_summary.png}
+\includegraphics[width=\textwidth]{fig7_results_summary.png}
 \caption{Honest claims and evidence summary.}
 \label{fig:results}
 \end{figure}
